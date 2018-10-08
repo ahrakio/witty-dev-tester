@@ -1,9 +1,10 @@
-const {exec, execFile, execSync} = require('child_process');
+const {exec, execSync} = require('child_process');
 const path = require('path');
 const {existsSync} = require ('fs');
 const conf = {
     core_path: 'E:\\NodeJS\\witty\\witty-core',
 };
+
 const start_path = __dirname;
 
 const server_dir = path.join(start_path, 'server');
@@ -40,7 +41,7 @@ let exec_client = () => {
         process.exit(0);
 
     });
-}
+};
 
 
 
@@ -49,7 +50,7 @@ if (!server_build_rv) {
     console.log('failed to build server!');
     return;
 } else {
-    console.log(server_build_rv.toString());
+    console.log('server built');
 }
 
 // (3) build client
@@ -58,7 +59,7 @@ if (!client_build_rv) {
     console.log('failed to build client!');
     return;
 } else {
-    console.log('build client.');
+    console.log('client built.');
 }
 
 // (4) exc server
