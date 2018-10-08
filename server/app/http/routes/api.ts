@@ -7,7 +7,7 @@ Router.delete('httpMethod', 'httpRequestTester@httpMethod');
 Router.put('httpMethod', 'httpRequestTester@httpMethod');
 Router.connect('httpMethod', 'httpRequestTester@httpMethod');
 Router.head('httpMethod', 'httpRequestTester@httpMethod');
-Router.option('httpMethod', 'httpRequestTester@httpMethod');
+Router.options('httpMethod', 'httpRequestTester@httpMethod');
 Router.patch('httpMethod', 'httpRequestTester@httpMethod');
 Router.trace('httpMethod', 'httpRequestTester@httpMethod');
 //------------

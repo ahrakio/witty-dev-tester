@@ -12,54 +12,67 @@ const client_dir = path.join(start_path, 'client');
 
 // (1) link npm to local core
 if (conf.core_path !== '') {
-    let pack = execSync('npm pack', {cwd: conf.core_path});
-    if (pack) {
+    try {
+        execSync('npm run-script build', {cwd: conf.core_path});
+    } catch (error)  {
+        console.log('failed to build local witty core');
+        console.log(error.message);
+        process.exit(-1);
+    }
+    try {
+        execSync('npm pack', {cwd: conf.core_path});
         let pack_name = pack.toString().match(/ahrakio-witty-core-\d+\.\d+\.\d+\.tgz/i);
         if (pack_name && existsSync(path.join(conf.core_path, pack_name[0]))) {
-            let local_install = execSync('npm install ' + path.join(conf.core_path, pack_name[0]), {cwd: server_dir});
-            if (!local_install) {
-                console.log('failed to install local witty-core')
+            try {
+                execSync('npm install ' + path.join(conf.core_path, pack_name[0]), {cwd: server_dir});
+            } catch (error) {
+                console.log('failed to install local witty-core');
+                console.log(error.message);
+                process.exit(-1);
             }
         }
+    } catch (error) {
+        console.log('failed to pack local witty core');
+        console.log(error.message);
+        process.exit(-1);
     }
 }
 // (2) build server
 let call = (error, stdout, stderr) => {
     if (error) {
-        console.error(`exec error: ${error}`);
+        console.error(`exec error: \n${error}`);
         return;
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(`stdout: \n\n${stdout}`);
+    console.log(`stderr: \n${stderr}`);
 };
 let exec_client = () => {
     console.log('run tester client.');
-    console.log('E:\\NodeJS\\witty\\witty-dev-tester\\client\\dist\\index.js')
-    let client_rv = exec(`node ${path.join(client_dir, 'dist', 'index.js')}`, {}, (error, stdout, stderr)=>{
-        server_ps.kill();
+    exec(`node ${path.join(client_dir, 'dist', 'index.js')}`, {}, (error, stdout, stderr)=>{
+        server_ps.kill(9);
         call(error, stdout, stderr);
         process.exit(0);
-
     });
 };
 
 
-
-let server_build_rv = execSync('witty build', {cwd:server_dir});
-if (!server_build_rv) {
-    console.log('failed to build server!');
-    return;
-} else {
+try {
+    execSync('witty build', {cwd: server_dir});
     console.log('server built');
+} catch (error) {
+    console.log('failed to build server!');
+    console.log(error.message);
+    process.exit(-1);
 }
 
 // (3) build client
-let client_build_rv = execSync('tsc', {cwd: client_dir});
-if (!client_build_rv) {
-    console.log('failed to build client!');
-    return;
-} else {
+try {
+    execSync('tsc', {cwd: client_dir});
     console.log('client built.');
+} catch (error) {
+    console.log('failed to build client!');
+    console.log(error.message);
+    process.exit(-1);
 }
 
 // (4) exc server
