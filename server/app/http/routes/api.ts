@@ -12,6 +12,8 @@ Router.patch('httpMethod', 'httpRequestTester@httpMethod');
 Router.trace('httpMethod', 'httpRequestTester@httpMethod');
 //------------
 
+Router.post('httpBody', 'httpRequestTester@httpBody');
+
 
 
 

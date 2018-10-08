@@ -9,4 +9,8 @@ export class httpRequestTester extends Controller {
 		this.response.text(this.request.Method, 200);
 	}
 
+	httpBody() {
+        this.response.text(this.request.Body, 200);
+	}
+
 }
