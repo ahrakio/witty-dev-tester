@@ -1,0 +1,8 @@
+{
+	"defaultPaths": {
+		"app": ".",
+		"controller": "./app/http/controllers",
+		"middleware": "./app/http/middlewares"
+	},
+	"metadata": {}
+}
