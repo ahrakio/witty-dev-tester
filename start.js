@@ -20,7 +20,7 @@ if (conf.core_path !== '') {
         process.exit(-1);
     }
     try {
-        execSync('npm pack', {cwd: conf.core_path});
+        let pack = execSync('npm pack', {cwd: conf.core_path});
         let pack_name = pack.toString().match(/ahrakio-witty-core-\d+\.\d+\.\d+\.tgz/i);
         if (pack_name && existsSync(path.join(conf.core_path, pack_name[0]))) {
             try {
